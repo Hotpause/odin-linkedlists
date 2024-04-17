@@ -122,8 +122,59 @@ class linkedList {
       result += temp.value + "-->";
       temp = temp.next;
     }
-    result += temp.value + "--> NULL";
+    result += temp.value;
     return result;
+  }
+
+  insertat(index, value) {
+    if (!this.head || index >= this.getsize() || index < 0) {
+      return null;
+    }
+    let findindex = 0;
+    let current = this.head;
+    let previous = null;
+    while (findindex !== index) {
+      findindex++;
+      previous = current;
+      current = current.next;
+    }
+    let newnode = new Node(value);
+    newnode.next = previous.next;
+    previous.next = newnode;
+
+    if (index === 0) {
+      this.head = newnode;
+    }
+
+    // Handle inserting at the end
+    if (index === this.getsize()) {
+      this.tail = newnode;
+    }
+  }
+
+  removeat(index) {
+    if (!this.head || index >= this.getsize() || index < 0) {
+      return null;
+    }
+    if (index == 0) {
+      this.head = this.head.next;
+      if (!this.head) {
+        this.tail = null;
+      }
+      return;
+    }
+    let count = 0;
+    let current = this.head;
+    let previous = null;
+    while (count !== index) {
+      count++;
+      previous = current;
+      current = current.next;
+    }
+    previous.next = current.next;
+    if (index === this.getsize()) {
+      this.tail = previous;
+    }
   }
 }
 
@@ -164,3 +215,9 @@ console.log("Index of 40:", myList.find(40));
 
 // Print the LinkedList as a string
 console.log("LinkedList:", myList.tostring());
+myList.insertat(2, 25);
+console.log("LinkedList after insertion:", myList.tostring());
+
+// Remove at a specific index
+myList.removeat(2);
+console.log("LinkedList after removal:", myList.tostring());
